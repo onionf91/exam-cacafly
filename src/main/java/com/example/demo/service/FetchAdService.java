@@ -2,9 +2,16 @@ package com.example.demo.service;
 
 import com.example.demo.domain.NativeAd;
 import com.example.demo.repository.*;
+import groovy.json.JsonOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -14,10 +21,9 @@ public class FetchAdService {
         this.title = title;
         NativeAd nativeAd = findNativeAd();
         if (nativeAd != null) {
-            log.info(nativeAd.getTitle());
-            log.info("size : " + clickUrlRepo.findByNativeAdTitle(nativeAd.getTitle()).size());
+            return nativeAdToJson(nativeAd);
         }
-        return "";
+        return "{}";
     }
 
     private NativeAd findNativeAd() {
@@ -27,6 +33,49 @@ public class FetchAdService {
                         .stream()
                         .filter(nativeAd -> nativeAd.getTitle().contains(title))
                         .findAny().orElse(null));
+    }
+
+    private String nativeAdToJson(NativeAd nativeAd) {
+        Map obj = new HashMap();
+        obj.put("title", nativeAd.getTitle());
+        obj.put("clickUrls", findClickUrls(nativeAd));
+        obj.put("descriptions", findDescriptions(nativeAd));
+        obj.put("imageUrls", findImageUrls(nativeAd));
+        obj.put("impressionLinks", findImpressionLinks(nativeAd));
+        String json = JsonOutput.toJson(obj);
+        return JsonOutput.prettyPrint(json);
+    }
+
+    private List<String> findClickUrls(NativeAd nativeAd) {
+        return clickUrlRepo
+                .findByNativeAdTitle(nativeAd.getTitle())
+                .stream()
+                .map(obj -> obj.getUrl())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> findDescriptions(NativeAd nativeAd) {
+        return descriptionRepo
+                .findByNativeAdTitle(nativeAd.getTitle())
+                .stream()
+                .map(obj -> obj.getText())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> findImageUrls(NativeAd nativeAd) {
+        return imageUrlRepo
+                .findByNativeAdTitle(nativeAd.getTitle())
+                .stream()
+                .map(obj -> obj.getUrl())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> findImpressionLinks(NativeAd nativeAd) {
+        return impressionLinkRepo
+                .findByNativeAdTitle(nativeAd.getTitle())
+                .stream()
+                .map(obj -> obj.getLink())
+                .collect(Collectors.toList());
     }
 
     private String title;
