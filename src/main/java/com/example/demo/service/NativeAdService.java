@@ -45,11 +45,11 @@ public class NativeAdService {
             parseClickUrl(asset);
         }
 
-        log.info("native ad size : " + nativeAdRepo.findAll().size());
-        log.info("click url size : " + clickUrlRepo.findAll().size());
-        log.info("image url size : " + imageUrlRepo.findAll().size());
-        log.info("impression link size : " + impressionLinkRepo.findAll().size());
-        log.info("description size : " + descriptionRepo.findAll().size());
+//        log.info("native ad size : " + nativeAdRepo.findAll().size());
+//        log.info("click url size : " + clickUrlRepo.findAll().size());
+//        log.info("image url size : " + imageUrlRepo.findAll().size());
+//        log.info("impression link size : " + impressionLinkRepo.findAll().size());
+//        log.info("description size : " + descriptionRepo.findAll().size());
     }
 
     private void parseTitle(Map asset) {
