@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ImpressionLinkRepo extends JpaRepository<ImpressionLink, Long> {
 
-    List<ImpressionLink> findByNativeAdTitle(String title);
+    List<ImpressionLink> findByNativeAdId(Long id);
 }

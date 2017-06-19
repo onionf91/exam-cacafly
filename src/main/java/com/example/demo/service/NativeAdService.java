@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -56,10 +57,14 @@ public class NativeAdService {
         Map obj = (Map)asset.get("title");
         if (obj != null) {
             String title = (String)obj.get("text");
-            log.info("title:" + title);
-            nativeAd.setTitle(title);
+            log.info("title:" + toHex(title));
+            nativeAd.setTitle(toHex(title));
             nativeAdRepo.save(nativeAd);
         }
+    }
+
+    private String toHex(String arg) {
+        return String.format("%x", new BigInteger(1, arg.getBytes()));
     }
 
     private void parseDescription(Map asset) {

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DescriptionRepo extends JpaRepository<Description, Long> {
 
-    List<Description> findByNativeAdTitle(String title);
+    List<Description> findByNativeAdId(Long id);
 }

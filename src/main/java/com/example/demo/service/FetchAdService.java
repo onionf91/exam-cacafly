@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class FetchAdService {
 
     private String nativeAdToJson(NativeAd nativeAd) {
         Map obj = new HashMap();
-        obj.put("title", nativeAd.getTitle());
+        obj.put("title", fromHex(nativeAd.getTitle()));
         obj.put("clickUrls", findClickUrls(nativeAd));
         obj.put("descriptions", findDescriptions(nativeAd));
         obj.put("imageUrls", findImageUrls(nativeAd));
@@ -46,9 +45,18 @@ public class FetchAdService {
         return JsonOutput.prettyPrint(json);
     }
 
+    private String fromHex(String hex) {
+        hex = hex.replaceAll("^(00)+", "");
+        byte[] bytes = new byte[hex.length() / 2];
+        for (int i = 0; i < hex.length(); i += 2) {
+            bytes[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4) + Character.digit(hex.charAt(i + 1), 16));
+        }
+        return new String(bytes);
+    }
+
     private List<String> findClickUrls(NativeAd nativeAd) {
         return clickUrlRepo
-                .findByNativeAdTitle(nativeAd.getTitle())
+                .findByNativeAdId(nativeAd.getId())
                 .stream()
                 .map(obj -> obj.getUrl())
                 .collect(Collectors.toList());
@@ -56,7 +64,7 @@ public class FetchAdService {
 
     private List<String> findDescriptions(NativeAd nativeAd) {
         return descriptionRepo
-                .findByNativeAdTitle(nativeAd.getTitle())
+                .findByNativeAdId(nativeAd.getId())
                 .stream()
                 .map(obj -> obj.getText())
                 .collect(Collectors.toList());
@@ -64,7 +72,7 @@ public class FetchAdService {
 
     private List<String> findImageUrls(NativeAd nativeAd) {
         return imageUrlRepo
-                .findByNativeAdTitle(nativeAd.getTitle())
+                .findByNativeAdId(nativeAd.getId())
                 .stream()
                 .map(obj -> obj.getUrl())
                 .collect(Collectors.toList());
@@ -72,7 +80,7 @@ public class FetchAdService {
 
     private List<String> findImpressionLinks(NativeAd nativeAd) {
         return impressionLinkRepo
-                .findByNativeAdTitle(nativeAd.getTitle())
+                .findByNativeAdId(nativeAd.getId())
                 .stream()
                 .map(obj -> obj.getLink())
                 .collect(Collectors.toList());

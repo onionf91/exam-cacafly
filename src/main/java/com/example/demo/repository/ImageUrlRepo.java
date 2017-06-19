@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ImageUrlRepo extends JpaRepository<ImageUrl, Long> {
 
-    List<ImageUrl> findByNativeAdTitle(String title);
+    List<ImageUrl> findByNativeAdId(Long id);
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ClickUrlRepo extends JpaRepository<ClickUrl, Long> {
 
-    List<ClickUrl> findByNativeAdTitle(String title);
+    List<ClickUrl> findByNativeAdId(Long id);
 }
