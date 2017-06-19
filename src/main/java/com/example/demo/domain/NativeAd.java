@@ -26,4 +26,7 @@ public class NativeAd {
 
     @OneToMany(mappedBy = "nativeAd", orphanRemoval = true)
     private List<ClickUrl> clickUrls;
+
+    @OneToMany(mappedBy = "nativeAd", orphanRemoval = true)
+    private List<Description> descriptions;
 }
