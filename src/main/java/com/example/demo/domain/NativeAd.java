@@ -9,13 +9,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+//@Table(uniqueConstraints=@UniqueConstraint(columnNames="title"))
 public class NativeAd {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Lob
     @Column(unique = true)
     private String title;
 

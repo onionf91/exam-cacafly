@@ -57,9 +57,13 @@ public class NativeAdService {
         Map obj = (Map)asset.get("title");
         if (obj != null) {
             String title = (String)obj.get("text");
-            log.info("title:" + toHex(title));
             nativeAd.setTitle(toHex(title));
-            nativeAdRepo.save(nativeAd);
+            try {
+                nativeAdRepo.save(nativeAd);
+                log.info("title:" + toHex(title));
+            } catch (Exception e) {
+                nativeAd = null;
+            }
         }
     }
 
