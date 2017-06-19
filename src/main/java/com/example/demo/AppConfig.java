@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Configuration
@@ -15,7 +16,13 @@ public class AppConfig {
     public CommandLineRunner init() {
         return (args) -> {
             nativeAdService.dumpAdSourceUrl();
+            nativeAdService.fetchAd();
         };
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Autowired
