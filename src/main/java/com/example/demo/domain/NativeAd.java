@@ -18,5 +18,8 @@ public class NativeAd {
     @OneToMany(mappedBy = "nativeAd", orphanRemoval = true)
     private List<ImpressionLink> impressionLinks;
 
+    @OneToMany(mappedBy = "nativeAd", orphanRemoval = true)
+    private List<ImageUrl> imageUrls;
+
     private String title;
 }
