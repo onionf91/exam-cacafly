@@ -17,6 +17,7 @@ public class AppConfig {
         return (args) -> {
             nativeAdService.dumpAdSourceUrl();
             nativeAdService.fetchAd();
+            nativeAdService.parseAd();
         };
     }
 
