@@ -18,5 +18,6 @@ public class ImageUrl {
     @ManyToOne(optional = false)
     private NativeAd nativeAd;
 
+    @Lob
     private String url;
 }

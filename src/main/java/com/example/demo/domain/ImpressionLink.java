@@ -18,5 +18,6 @@ public class ImpressionLink {
     @ManyToOne(optional = false)
     private NativeAd nativeAd;
 
+    @Lob
     private String link;
 }

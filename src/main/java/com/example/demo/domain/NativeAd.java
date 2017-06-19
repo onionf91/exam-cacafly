@@ -15,6 +15,7 @@ public class NativeAd {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Lob
     @Column(unique = true)
     private String title;
 
